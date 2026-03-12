@@ -1,15 +1,21 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 
-export default function Avatar() {
+type AvatarPros = {
+  aoTocar?: () => void;
+};
+
+export default function Avatar({ aoTocar }: AvatarPros) {
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.imagem}
-        source={{
-          uri: "https://i.pinimg.com/1200x/36/03/b3/3603b3e22904f3ddda3271fda9e4e8d9.jpg",
-        }}
-      />
-    </View>
+    <TouchableOpacity onPress={aoTocar}>
+      <View style={styles.container}>
+        <Image
+          style={styles.imagem}
+          source={{
+            uri: "https://i.pinimg.com/1200x/36/03/b3/3603b3e22904f3ddda3271fda9e4e8d9.jpg",
+          }}
+        />
+      </View>
+    </TouchableOpacity>
   );
 }
 

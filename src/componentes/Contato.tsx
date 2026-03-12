@@ -9,7 +9,7 @@ type ContatoProps = {
 export default function Contato({ contato }: ContatoProps) {
   return (
     <View style={styles.container1}>
-      <Avatar />
+      <Avatar aoTocar={() => alert(contato.nome)} />
       <View style={styles.container2}>
         <Text style={styles.nome}>{contato.nome}</Text>
         <Text style={styles.telefone}>
