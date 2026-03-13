@@ -1,30 +1,37 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, TouchableOpacity } from "react-native";
 
-export default function Avatar() {
+type AvatarProps = {
+  aoTocar?: () => void 
+};
+
+export default function Avatar({aoTocar}: AvatarProps) {
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.imagem}
-        source={{
-          uri: "https://i.pinimg.com/1200x/36/03/b3/3603b3e22904f3ddda3271fda9e4e8d9.jpg",
-        }}
-      />
-    </View>
+    <TouchableOpacity onPress={aoTocar}>
+      <View style={styles.container}>
+        <Image
+          style={styles.imagem}
+          source={{
+            uri: "https://i.pinimg.com/474x/57/40/08/5740086ce904a58a1ad9621f65786b93.jpg?nii=t",
+          }}
+        />
+      </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 3,
+    width: 80,
+    height: 80,
+    borderWidth: 2,
     borderColor: "red",
     borderRadius: 50,
-    width: 60,
-    height: 60,
     overflow: "hidden",
   },
+
   imagem: {
-    width: 55,
-    height: 55,
-    resizeMode: "contain",
+    width: 75,
+    height: 75,
+    resizeMode: "contain", 
   },
 });
