@@ -2,6 +2,7 @@ import { getContatos } from "@/src/api/contatosApi";
 import Avatar from "@/src/componentes/Avatar";
 import Contato from "@/src/componentes/Contato";
 import { FlatList, View, Button } from "react-native";
+import {useRouter} from "expo-router";
 
 
 function funcaoTeste1() {
@@ -10,16 +11,17 @@ function funcaoTeste1() {
 
 export default function Index() {
   const contatos = getContatos();
+  const router = useRouter();
 
   return (
     <View style={{ flex: 1 }}>
 
       <Button
-        title="Adicionar Contato"
-        onPress={funcaoTeste1}
+        title="Adicionar Contato" 
+        onPress={() => router.navigate("/novo")}
       />
 
-      <Avatar aoTocar={() => alert("Você clicou no avatar!")} />
+      {/*<Avatar aoTocar={() => alert("Você clicou no avatar!")} />*/}
 
       <FlatList
         data={contatos}
