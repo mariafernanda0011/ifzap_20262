@@ -1,31 +1,54 @@
 import { getContatos } from "@/src/api/contatosApi";
 import Avatar from "@/src/componentes/Avatar";
 import Contato from "@/src/componentes/Contato";
-import { FlatList, View, Button } from "react-native";
-import {useRouter} from "expo-router";
+import { FlatList, View, Button, Text } from "react-native";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { ContatoType } from "@/src/tipos/types";
 
-
-function funcaoTeste1() {
-  alert("Função teste 1 executada!");
-}
 
 export default function Index() {
-  const contatos = getContatos();
+
   const router = useRouter();
+  const [carregando, setCarregando] = useState(false);
+  const [contatos, setContatos] = useState < ContatoType[]> ([]);
+
+  async function renderizarLista() {
+    setCarregando(true);
+    const contatos = await getContatos();
+    setContatos(contatos);
+    setCarregando(false);
+  }
+
+  useEffect(() => {
+    renderizarLista();
+    setCarregando(false);
+  }, []);
+
 
   return (
     <View style={{ flex: 1 }}>
 
       <Button
-        title="Adicionar Contato" 
+        title="Adicionar Contato"
         onPress={() => router.navigate("/novo")}
       />
 
       {/*<Avatar aoTocar={() => alert("Você clicou no avatar!")} />*/}
 
-      <FlatList
-        data={contatos}
-        renderItem={({ item, index }) => <Contato key={index} contato={item} />} />
+      {!carregando && (
+        <FlatList
+          data={contatos}
+          renderItem={({ item, index }) => (
+          <Contato key={index} contato={item} />
+        )} 
+        />
+      )}
+      {carregando && (
+        <View>
+          <Text>Carregando contatos...</Text>
+        </View>
+      )}
 
     </View>
   );

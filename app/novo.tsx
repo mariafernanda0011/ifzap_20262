@@ -6,12 +6,12 @@ import { criarContato } from '@/src/api/contatosApi';
 export default function newPage() {
 
     /*
-    // Função Hulk: Que retorna uma variável (contador),
-    // que representa o estado & uma função(setContador) que altera o estado dessa variável dentro de um vetor. //
+    Funções Hooks: Que retorna uma variável (contador),
+    que representa o estado & uma função(setContador) que altera o estado dessa variável dentro de um vetor. 
     const [contador, setContador] = useState(0); // Os [] são usados para desetruturar vetores //
 
     function incrementar() {
-        // setContador(contador + 1); // Forma não recomendada //
+        setContador(contador + 1); // Forma não recomendada 
         setContador((valorAnterior) => valorAnterior + 1);
     }
     */
@@ -19,9 +19,24 @@ export default function newPage() {
     const [nome, setNome] = useState(" ");
     const [telefone, setTelefone] = useState("");
     const router = useRouter();
+    const [carregando, setCarregando] = useState(false);
 
-    function salvarContato() { // Retorna uma Promisse
-        criarContato(nome, telefone).then(() => {
+    async function salvarContato() { // Retorna uma Promisse - é uma função assíncrona
+        
+        try {
+            setCarregando(true);
+            await criarContato(nome, telefone);
+            alert("Contato criado com sucesso!");
+            router.back();
+        } catch (erro) {
+            alert("Erro ao criar contato.");
+        } finally {
+            setCarregando(false);
+        }
+
+        /*
+        criarContato(nome, telefone)
+        .then(() => {
             alert("Contato criado com sucesso!");
             router.back();
         }).catch((error) => {
@@ -29,34 +44,44 @@ export default function newPage() {
         }).finally(() => {
             console.log("Operação de criação de contato finalizada.");
         });
+        */
     }
 
 
     return (
-        <View style={styles.container}>
+        <> {/* Fragmento - componente genérico */}
+            {!carregando && ( // Se não estiver carregando 
+                <View style={styles.container}>
 
-            {/*
-            <Text>Contador: {contador}</Text>
-            <Button title= "Clique aqui!" onPress={incrementar}/> 
-            */}
+                    {/*
+                    <Text>Contador: {contador}</Text>
+                    <Button title= "Clique aqui!" onPress={incrementar}/> 
+                    */}
 
-            <Text>Nome:</Text>
-            <TextInput style={styles.input}
-                value={nome}
-                onChangeText={(novoNome) => setNome(novoNome)}
-            />
+                    <Text>Nome:</Text>
+                    <TextInput style={styles.input}
+                        value={nome}
+                        onChangeText={(novoNome) => setNome(novoNome)}
+                    />
 
-            <Text>Telefone:</Text>
-            <TextInput style={styles.input}
-                value={telefone}
-                onChangeText={(novoTelefone) => setTelefone(novoTelefone)}
-            />
+                    <Text>Telefone:</Text>
+                    <TextInput style={styles.input}
+                        value={telefone}
+                        onChangeText={(novoTelefone) => setTelefone(novoTelefone)}
+                    />
 
-            <Button title="Salvar"
-                onPress={() => salvarContato()}
-            />
+                    <Button title="Salvar"
+                        onPress={() => salvarContato() }
+                    />
 
-        </View>
+                </View>
+            )}
+            {carregando && ( // Se estiver carregando 
+                <View>
+                    <Text> Salvando contato...</Text>
+                </View>
+            )}
+        </>
     );
 }
 
