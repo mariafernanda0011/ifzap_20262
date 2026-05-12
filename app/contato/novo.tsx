@@ -1,12 +1,14 @@
-import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
 import { useState } from 'react';
+import { View, Text, Button, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { criarContato } from '@/src/api/contatosApi';
 
-export default function newPage() {
+import { criarContato } from '@/src/api/contatosApi';
+import { stylesGlobais } from '@/src/style/themes';
+
+export default function AdicionarContato() {
 
     /*
-    Funções Hooks: Que retorna uma variável (contador),
+    Funções Hooks: Retorna uma variável (contador),
     que representa o estado & uma função(setContador) que altera o estado dessa variável dentro de um vetor. 
     const [contador, setContador] = useState(0); // Os [] são usados para desetruturar vetores //
 
@@ -58,21 +60,21 @@ export default function newPage() {
                     <Button title= "Clique aqui!" onPress={incrementar}/> 
                     */}
 
-                    <Text>Nome:</Text>
+                    <Text style={styles.label}>Nome:</Text>
                     <TextInput style={styles.input}
                         value={nome}
                         onChangeText={(novoNome) => setNome(novoNome)}
                     />
 
-                    <Text>Telefone:</Text>
+                    <Text style={styles.label}>Telefone:</Text>
                     <TextInput style={styles.input}
                         value={telefone}
                         onChangeText={(novoTelefone) => setTelefone(novoTelefone)}
                     />
 
-                    <Button title="Salvar"
-                        onPress={() => salvarContato() }
-                    />
+                    <TouchableOpacity style={stylesGlobais.btn} onPress={() => salvarContato() }>
+                        <Text style={stylesGlobais.textBtn}>SALVAR</Text>
+                    </TouchableOpacity>
 
                 </View>
             )}
@@ -92,10 +94,18 @@ const styles = StyleSheet.create({
         padding: 15,
     },
 
+    label: {
+        fontSize: 16,
+        fontWeight: "bold",
+        marginTop: 10,
+    },
+
     input: {
         borderColor: "#000000",
         borderWidth: 2,
         margin: 5,
+        marginBottom: 15,
+        padding: 8,
     },
 
 });

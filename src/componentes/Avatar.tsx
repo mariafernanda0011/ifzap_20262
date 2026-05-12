@@ -20,6 +20,7 @@ export default function Avatar({aoTocar}: AvatarProps) {
 }
 
 const styles = StyleSheet.create({
+
   container: {
     width: 80,
     height: 80,
@@ -34,4 +35,5 @@ const styles = StyleSheet.create({
     height: 75,
     resizeMode: "contain", 
   },
+
 });
