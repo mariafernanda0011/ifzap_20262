@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { View, Text, Button, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 
 import { criarContato } from '@/src/api/contatosApi';
-import { stylesGlobais } from '@/src/style/themes';
+import FormularioContato from '@/src/componentes/FormularioContato';
+import { ContatoType } from '@/src/tipos/types';
 
 export default function AdicionarContato() {
 
@@ -17,17 +18,14 @@ export default function AdicionarContato() {
         setContador((valorAnterior) => valorAnterior + 1);
     }
     */
-
-    const [nome, setNome] = useState(" ");
-    const [telefone, setTelefone] = useState("");
     const router = useRouter();
     const [carregando, setCarregando] = useState(false);
 
-    async function salvarContato() { // Retorna uma Promisse - é uma função assíncrona
+    async function salvarContato(contato: ContatoType) { // Retorna uma Promisse - é uma função assíncrona
         
         try {
             setCarregando(true);
-            await criarContato(nome, telefone);
+            await criarContato(contato.nome, contato.telefone);
             alert("Contato criado com sucesso!");
             router.back();
         } catch (erro) {
@@ -52,60 +50,19 @@ export default function AdicionarContato() {
 
     return (
         <> {/* Fragmento - componente genérico */}
+
             {!carregando && ( // Se não estiver carregando 
-                <View style={styles.container}>
-
-                    {/*
-                    <Text>Contador: {contador}</Text>
-                    <Button title= "Clique aqui!" onPress={incrementar}/> 
-                    */}
-
-                    <Text style={styles.label}>Nome:</Text>
-                    <TextInput style={styles.input}
-                        value={nome}
-                        onChangeText={(novoNome) => setNome(novoNome)}
-                    />
-
-                    <Text style={styles.label}>Telefone:</Text>
-                    <TextInput style={styles.input}
-                        value={telefone}
-                        onChangeText={(novoTelefone) => setTelefone(novoTelefone)}
-                    />
-
-                    <TouchableOpacity style={stylesGlobais.btn} onPress={() => salvarContato() }>
-                        <Text style={stylesGlobais.textBtn}>SALVAR</Text>
-                    </TouchableOpacity>
-
-                </View>
+                <FormularioContato contato={{ id: 0, nome: "", telefone: "", imagem: "", online: false }} 
+                onSalvar={salvarContato} 
+                />
             )}
             {carregando && ( // Se estiver carregando 
                 <View>
                     <Text> Salvando contato...</Text>
                 </View>
             )}
+
         </>
     );
 }
 
-const styles = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        padding: 15,
-    },
-
-    label: {
-        fontSize: 16,
-        fontWeight: "bold",
-        marginTop: 10,
-    },
-
-    input: {
-        borderColor: "#000000",
-        borderWidth: 2,
-        margin: 5,
-        marginBottom: 15,
-        padding: 8,
-    },
-
-});

@@ -8,9 +8,10 @@ import { FontAwesome } from "@expo/vector-icons";
 
 type ContatoProps = {
   contato: ContatoType;
+  onEditar: () => void;
 };
 
-export default function Contato({ contato }: ContatoProps) {
+export default function Contato({ contato, onEditar }: ContatoProps) {
 
   const router = useRouter();
 
@@ -29,7 +30,7 @@ export default function Contato({ contato }: ContatoProps) {
         </View>
       </View>
 
-      <TouchableOpacity onPress={() => router.navigate(`/contato/${contato.id}`)}>
+      <TouchableOpacity onPress={onEditar}>
         <FontAwesome name="pencil-square-o" size={24} color="black" padding={10}/>
       </TouchableOpacity>
     </View>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FlatList, View, Text, TouchableOpacity } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 
-import Avatar from "@/src/componentes/Avatar";
+//import Avatar from "@/src/componentes/Avatar";
 import Contato from "@/src/componentes/Contato";
 import { ContatoType } from "@/src/tipos/types";
 import { getContatos } from "@/src/api/contatosApi";
@@ -57,7 +57,7 @@ export default function Index() {
           <FlatList
             data={contatos}
             renderItem={({ item, index }) => (
-              <Contato key={index} contato={item} />
+              <Contato key={index} contato={item} onEditar={() => router.navigate(`/contato/${item.id}`)} />
             )}
           />
         </>
